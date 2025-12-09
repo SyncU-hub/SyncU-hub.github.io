@@ -23,10 +23,11 @@
   </style>
 </head>
 <body>
+    
   <header>
     <img src="" alt="" width="38" height="38" style="background:linear-gradient(135deg,#2b6cb0,#60a5fa);border-radius:8px"/>
     <div>
-      <h1>Índice del proyecto</h1>
+      <h1>SyncU</h1>
       <div style="color:var(--muted);font-size:0.85rem">Usa esta página como entrada para tus PHP</div>
     </div>
 
@@ -40,9 +41,11 @@
       <div style="margin-bottom:10px; font-weight:700;">Archivos disponibles</div>
       <!-- Enlaza los PHP que tengas en la misma carpeta -->
       <a href="#" data-src="register-step-1.php" class="active" onclick="openSrc(event)">Registro — step 1</a>
-      <a href="#" data-src="info.php" onclick="openSrc(event)">Info / detalles</a>
-      <a href="#" data-src="db_connect.php" onclick="openSrc(event)">Conexión DB (php)</a>
-      <a href="#" data-src="syncu_db.sql" onclick="openSrc(event)">Dump SQL (descargar)</a>
+      <a href="#" data-src="register-step-2.php" class="active" onclick="openSrc(event)">Registro — step 2</a>
+      <a href="#" data-src="info.php" onclick="openSrc(event)">Info</a>
+      <a href="#" data-src="db_connect.php" onclick="openSrc(event)">Conexión DB</a>
+      <a href="#" data-src="syncu_db.sql" onclick="openSrc(event)">Dump SQL</a>
+      <a href="#" data-src="HTML.html" class="active" onclick="openSrc(event)">HTML</a>
 
       <hr style="margin:10px 0;border:none;border-top:1px solid #f1f5f9" />
       <div style="font-size:0.92rem;color:var(--muted)">
@@ -69,7 +72,7 @@
       </div>
     </section>
   </main>
-  
+
   <script>
     function openSrc(e){
       e.preventDefault();
