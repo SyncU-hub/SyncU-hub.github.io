@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SyncU</title>
+  <style>
+    :root { --accent:#2b6cb0; --bg:#f7fafc; --card:#ffffff; --muted:#6b7280; }
+    body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; background:var(--bg); color:#111827; }
+    header { background: linear-gradient(90deg, #ffffff, #f0f6ff); padding:18px 22px; border-bottom:1px solid #e6eef8; display:flex; align-items:center; gap:16px;}
+    h1 { font-size:1.05rem; margin:0; }
+    nav { margin-left:auto; display:flex; gap:8px; align-items:center; }
+    button.link { background:transparent; border:1px solid transparent; padding:8px 12px; border-radius:8px; cursor:pointer; }
+    button.link:hover { background:rgba(43,108,176,0.06); border-color:rgba(43,108,176,0.12); }
+    .container { display:grid; grid-template-columns: 320px 1fr; gap:18px; padding:18px; max-width:1200px; margin:18px auto; }
+    .card { background:var(--card); border-radius:12px; padding:14px; box-shadow: 0 6px 18px rgba(15,23,42,0.04); border:1px solid #eef4fb; }
+    .sidebar a { display:block; padding:10px 12px; border-radius:8px; text-decoration:none; color:var(--muted); margin-bottom:6px; }
+    .sidebar a.active { color:var(--accent); font-weight:600; background:rgba(43,108,176,0.05); }
+    iframe.viewer { width:100%; height:72vh; border:0; border-radius:10px; background:#fff; }
+    footer { text-align:center; color:var(--muted); padding:12px 6px; font-size:0.92rem; }
+    .warn { color:#b45309; font-weight:600; font-size:0.95rem; }
+    @media(max-width:880px){ .container{grid-template-columns:1fr; } iframe.viewer{height:60vh;} .sidebar{display:flex; overflow:auto; gap:6px;} .sidebar a{white-space:nowrap;} }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="" alt="" width="38" height="38" style="background:linear-gradient(135deg,#2b6cb0,#60a5fa);border-radius:8px"/>
+    <div>
+      <h1>Índice del proyecto</h1>
+      <div style="color:var(--muted);font-size:0.85rem">Usa esta página como entrada para tus PHP</div>
+    </div>
+
+    <nav>
+      <button class="link" onclick="location.reload()">Recargar</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <aside class="card sidebar">
+      <div style="margin-bottom:10px; font-weight:700;">Archivos disponibles</div>
+      <!-- Enlaza los PHP que tengas en la misma carpeta -->
+      <a href="#" data-src="register-step-1.php" class="active" onclick="openSrc(event)">Registro — step 1</a>
+      <a href="#" data-src="info.php" onclick="openSrc(event)">Info / detalles</a>
+      <a href="#" data-src="db_connect.php" onclick="openSrc(event)">Conexión DB (php)</a>
+      <a href="#" data-src="syncu_db.sql" onclick="openSrc(event)">Dump SQL (descargar)</a>
+
+      <hr style="margin:10px 0;border:none;border-top:1px solid #f1f5f9" />
+      <div style="font-size:0.92rem;color:var(--muted)">
+        Si alguno de estos ficheros no existe en el servidor, el iframe mostrará un error 404. Sube los PHP al mismo directorio que este archivo.
+      </div>
+    </aside>
+
+    <section class="card" style="padding:12px;">
+      <div style="display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="font-weight:700">Visor</div>
+        <div style="font-size:0.9rem;color:var(--muted)">Clic en un archivo para abrirlo</div>
+      </div>
+
+      <!-- Iframe para previsualizar las páginas PHP -->
+      <iframe id="viewer" class="viewer" src="register-step-1.php" title="Visor de archivos"></iframe>
+
+      <div style="margin-top:10px; display:flex; gap:8px;">
+        <button onclick="downloadSQL()" class="link">Descargar SQL</button>
+        <button onclick="openInNew()" class="link">Abrir en nueva pestaña</button>
+      </div>
+
+      <div style="margin-top:12px; color:var(--muted); font-size:0.9rem">
+        Nota: para que los archivos PHP funcionen debes servir esta carpeta con un servidor que soporte PHP (por ejemplo, Apache / nginx + PHP-FPM). El `.sql` es un volcado que puedes descargar y restaurar en tu base de datos si lo necesitas.
+      </div>
+    </section>
+  </main>
+  
+  <script>
+    function openSrc(e){
+      e.preventDefault();
+      const a = e.currentTarget;
+      const src = a.dataset.src;
+      // resaltar
+      document.querySelectorAll('.sidebar a').forEach(x=>x.classList.remove('active'));
+      a.classList.add('active');
+      // si es .sql, forzar descarga
+      if(src && src.toLowerCase().endsWith('.sql')){
+        window.location.href = src;
+        return;
+      }
+      document.getElementById('viewer').src = src;
+    }
+    function openInNew(){
+      const src = document.getElementById('viewer').src;
+      window.open(src, '_blank');
+    }
+    function downloadSQL(){
+      const link = document.createElement('a');
+      link.href = 'syncu_db.sql';
+      link.download = 'syncu_db.sql';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+  </script>
+</body>
+</html>
